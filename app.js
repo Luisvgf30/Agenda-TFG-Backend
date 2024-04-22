@@ -23,9 +23,9 @@ const notesRouter = require('./routes/notes');
 
 
 app.use("/", usersRouter);
-app.use("/", tasksRouter);
-app.use("/", eventsRouter);
-app.use("/", notesRouter);
+// app.use("/task", tasksRouter);
+// app.use("/event", eventsRouter);
+// app.use("/note", notesRouter);
 
 app.get("/health", (req, res) => {
     res.send({data: "healthy"})

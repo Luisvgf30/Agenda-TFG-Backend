@@ -10,9 +10,37 @@ export const User = {
         },
         password: {
             type: types.TEXT
+        },
+        email: {
+            type: types.TEXT
+        },
+        foto: {
+            type: types.TEXT
+        },
+        diary_time: {
+            type: types.DATE
+        },
+        tasks: {
+            type: types.ARRAY,
+            items: {
+                type: types.TASK
+            }
+        },
+        notes: {
+            type: types.ARRAY,
+            items: {
+                type: types.NOTE
+            }
+        },
+        events: {
+            type: types.ARRAY,
+            items: {
+                type: types.EVENT
+            }
         }
+        
     },
-    required: ["id", "username", "password"]
+    required: ["id", "username", "password", "email"]
 }
 
 export default User;

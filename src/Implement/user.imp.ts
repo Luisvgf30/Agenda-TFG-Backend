@@ -10,29 +10,27 @@ export class UserImp implements IUsers{
     }
     
 
-    // async findUser(res: any, email: string): Promise<void> {
-    //     try{
-    //         await this.dbConnection.connect();
+    async login(res: any, username: string): Promise<void> {
+        try{
+            await this.dbConnection.connect();
 
-    //         const collection = this.dbConnection.db.collection('Usuario');
-    //         console.log(email)
+            const collection = this.dbConnection.db.collection('usuario');
 
-    //         const usu = await collection.find({ email }).toArray();
-    //         console.log(usu)
+            const usu = await collection.find({ username }).toArray();
 
-    //         if (usu.length > 0) {
-    //             res.status(200).send(usu);
-    //         } else {
-    //             res.status(404).send({ message: "Usuario no encontrado" });
-    //         }
+            if (usu.length > 0) {
+                res.status(200).send(usu);
+            } else {
+                res.status(404).send({ message: "Usuario no encontrado" });
+            }
 
-    //     } catch (error) {
-    //         console.error(error);
-    //         res.status(500).send({message: "Internal server error"});
-    //     } finally {
-    //         await this.dbConnection.closeConnection();
-    //     }
-    // }
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({message: "Internal server error"});
+        } finally {
+            await this.dbConnection.closeConnection();
+        }
+    }
 
     async saveUser(res: any, username: string, password: string): Promise<void> {
         try{

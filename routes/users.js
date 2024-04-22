@@ -2,14 +2,14 @@ var express = require('express');
 var router = express.Router();
 const {UserImp} = require('../dist/Implement/user.imp');
 
-// router.get('/findUsu', async (req, res, next) => {
-//   try {
-//     const usuImp = new UsersImp()
-//     await usuImp.findUsu(res, req.query.email); // Pasar el objeto res
-//   } catch (err) {
-//     console.error("Error en la ruta /:", err);
-//   }
-// });
+router.get('/login', async (req, res, next) => {
+  try {
+    const usuImp = new UserImp()
+    await usuImp.login(res, req.query.username); // Pasar el objeto res
+  } catch (err) {
+    console.error("Error en la ruta /:", err);
+  }
+});
 
 router.post('/singUpUsu', async (req, res, next) => {
   try {

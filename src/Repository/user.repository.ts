@@ -1,5 +1,5 @@
 export interface IUsers {
-    // findUser(res: any, email: string): Promise<void>;
+    login(res: any, email: string): Promise<void>;
     saveUser(res: any, username: string, password: string): Promise<void> 
     // findAllUsers(res: any): Promise<void>;
     // deleteUser(res: any, email: string): Promise<void>;
