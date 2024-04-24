@@ -5,7 +5,7 @@ const {UserImp} = require('../dist/Implement/user.imp');
 router.get('/login', async (req, res, next) => {
   try {
     const usuImp = new UserImp()
-    await usuImp.login(res, req.query.username); // Pasar el objeto res
+    await usuImp.login(res, req.query.username, req.query.password);
   } catch (err) {
     console.error("Error en la ruta /:", err);
   }
@@ -14,7 +14,16 @@ router.get('/login', async (req, res, next) => {
 router.post('/singUpUsu', async (req, res, next) => {
   try {
     const usuImp = new UserImp()
-    await usuImp.saveUser(res, req.query.username, req.query.password);
+    await usuImp.saveUser(res, req.query.username, req.query.email,req.query.password);
+  } catch (err) {
+    console.error("Error en la ruta /:", err);
+  }
+});
+
+router.put('/editUsu', async (req, res, next) => {
+  try {
+    const usuImp = new UserImp()
+    await usuImp.updateUser(res, req.query.email, req.query.password, req.query.rol);
   } catch (err) {
     console.error("Error en la ruta /:", err);
   }
@@ -38,14 +47,6 @@ router.post('/singUpUsu', async (req, res, next) => {
 //   }
 // }); 
 
-// router.put('/editUsu', async (req, res, next) => {
-//   try {
-//     const usuImp = new UsersImp()
-//     await usuImp.updateUsu(res, req.query.email, req.query.password, req.query.rol);
-//   } catch (err) {
-//     console.error("Error en la ruta /:", err);
-//   }
-// });
 
 
 module.exports = router;
