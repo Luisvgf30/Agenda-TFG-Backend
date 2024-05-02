@@ -75,25 +75,33 @@ export class UserImp implements IUsers{
         }
     }
 
-    async updateUser(res: any, email: string, password: string, rol: string): Promise<void> {
+    async updateUser(res: any, email: string, username: string, password: string, foto: string, diary_time: Date): Promise<void> {
         try {
             await this.dbConnection.connect();
 
-            const collection = this.dbConnection.db.collection('Usuario');
+            const collection = this.dbConnection.db.collection('usuario');
 
-            const usuario = await collection.findOne({ email: email });
+            const usuario = await collection.findOne({ username: username });
 
             if (usuario) {
-                if (password) usuario.password = password;
-                if (rol !== undefined && rol !== null) usuario.rol = rol;
+                const updatedUser: any = {};
 
-                const result = await collection.updateOne({ email: email }, { $set: usuario });
+                    updatedUser.email = email;
+                    updatedUser.password = password;              
+                    updatedUser.foto = foto;              
+                    updatedUser.diary_time = diary_time;
+
+                const result = await collection.updateOne(
+                    { username: username },
+                    { $set: updatedUser }
+                );
 
                 if (result.modifiedCount > 0) {
                     res.status(200).send({ message: "Usuario actualizado correctamente" });
                 } else {
-                    res.status(404).send({ message: "Usuario no encontrado o no se realizaron cambios" });
+                    res.status(500).send({ message: "Error al actualizar el usuario" });
                 }
+                
             } else {
                 res.status(404).send({ message: "Usuario no encontrado" });
             }

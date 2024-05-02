@@ -23,7 +23,7 @@ router.post('/singUpUsu', async (req, res, next) => {
 router.put('/editUsu', async (req, res, next) => {
   try {
     const usuImp = new UserImp()
-    await usuImp.updateUser(res, req.query.email, req.query.password, req.query.rol);
+    await usuImp.updateUser(res, req.query.username, req.query.email, req.query.password, );
   } catch (err) {
     console.error("Error en la ruta /:", err);
   }
