@@ -16,21 +16,18 @@ export class TaskImp implements ITasks {
             const collectionUsu = this.dbConnection.db.collection('usuario');
             const collectionTask = this.dbConnection.db.collection('tareas');
     
-            // Verificar si el usuario existe
             const usu = await collectionUsu.findOne({ username });
             if (!usu) {
                 res.status(404).send({ message: "Usuario no encontrado" });
                 return;
             }
     
-            // Verificar si la tarea ya existe para este usuario
             const existingTask = await collectionTask.findOne({ task_name, username });
             if (existingTask) {
                 res.status(500).send({ message: "Nombre de tarea repetido" });
                 return;
             }
     
-            // Crear la nueva tarea
             const task = {
                 task_name: task_name,
                 task_desc: task_desc,
@@ -38,13 +35,11 @@ export class TaskImp implements ITasks {
                 limit_date: new Date(limit_date),
                 document: document,
                 estado: "Sin empezar",
-                username: username // Agregar el nombre de usuario a la tarea
+                username: username 
             };
     
-            // Insertar la nueva tarea en la colección de tareas
             const resultTask = await collectionTask.insertOne(task);
     
-            // Actualizar la lista de tareas del usuario
             await collectionUsu.updateOne(
                 { username: username },
                 { $push: { tasks: resultTask.insertedId } }
