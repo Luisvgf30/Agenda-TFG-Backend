@@ -35,6 +35,7 @@ export class TaskImp implements ITasks {
                 limit_date: new Date(limit_date),
                 document: document,
                 estado: "Sin empezar",
+                username: username
             };
     
             const resultTask = await collectionTask.insertOne(task);
@@ -100,18 +101,25 @@ export class TaskImp implements ITasks {
                 return;
             }
     
-            const taskToDelete = user.tasks.find((task: any) => task.task_name === task_name);
+            const tasks = await collectionTask.find({ task_name }).toArray();
+            let deletedTask = false;
     
-            if (!taskToDelete) {
-                res.status(404).send({ message: "Tarea no encontrada en la lista de tareas del usuario" });
-                return;
+            for (let i = 0; i < user.tasks.length; i++) {
+                for (let j = 0; j < tasks.length; j++) {
+                    if (user.tasks[i].toString() === tasks[j]._id.toString()) {
+                        await collectionTask.deleteOne({ _id: tasks[j]._id });
+                        user.tasks = user.tasks.filter((taskId: any) => taskId.toString() !== tasks[j]._id.toString());
+                        deletedTask = true;
+                    }
+                }
             }
-    
-            user.tasks = user.tasks.filter((task: any) => task.task_name !== task_name);
     
             await collectionUsu.replaceOne({ username }, user);
     
-            await collectionTask.deleteOne({ _id: taskToDelete._id });
+            if (!deletedTask) {
+                res.status(404).send({ message: "Tarea no encontrada en la lista de tareas del usuario" });
+                return;
+            }
     
             res.status(200).send({ message: "Tarea eliminada exitosamente" });
         } catch (error) {
@@ -123,52 +131,10 @@ export class TaskImp implements ITasks {
     }
     
     
+    
     updateTask(res: any): Promise<void> {
         throw new Error("Method not implemented.");
     }
 
-    // async findAllUsers(res: any): Promise<void> {
-    //     try{
-    //         await this.dbConnection.connect();
 
-    //         const collection = this.dbConnection.db.collection('Usuario');
-
-    //         const usuarios = await collection.find().toArray();
-
-    //         if (usuarios.length > 0) {
-    //             res.status(200).send(usuarios);
-    //         } else {
-    //             res.status(404).send({ message: "Usuarios no encontrados" });
-    //         }
-
-    //     } catch (error) {
-    //         console.error(error);
-    //         res.status(500).send({message: "Internal server error"});
-    //     } finally {
-    //         await this.dbConnection.closeConnection();
-    //     }
-    // }
-
-    // async deleteUser(res: any, email: string): Promise<void> {
-    //     try {
-    //         await this.dbConnection.connect();
-
-    //         const collection = this.dbConnection.db.collection('Usuario');
-
-    //         const result = await collection.deleteOne({ email });
-
-    //         if (result.deletedCount && result.deletedCount > 0) {
-    //             res.status(200).send({ message: "Usuario eliminado exitosamente" });
-    //         } else {
-    //             console.log("hola")
-    //             res.status(404).send({ message: "Usuario no encontrado" });
-    //         }
-
-    //     } catch (error) {
-    //         console.error(error);
-    //         res.status(500).send({ message: "Internal server error" });
-    //     } finally {
-    //         await this.dbConnection.closeConnection();
-    //     }
-    // }
 }
