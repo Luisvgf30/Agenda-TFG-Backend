@@ -20,5 +20,15 @@ router.delete('/deleteTask', async (req, res, next) => {
   }
 }); 
 
+router.get('/buscarTasks', async (req, res, next) => {
+  try {
+    const taskImp = new TaskImp()
+    await taskImp.findAllTasks(res, req.query.username);
+  } catch (err) {
+    console.error("Error en la ruta /:", err);
+  }
+});
+
+
 module.exports = router;
 

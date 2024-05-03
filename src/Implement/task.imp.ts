@@ -35,7 +35,6 @@ export class TaskImp implements ITasks {
                 limit_date: new Date(limit_date),
                 document: document,
                 estado: "Sin empezar",
-                username: username 
             };
     
             const resultTask = await collectionTask.insertOne(task);
@@ -55,8 +54,36 @@ export class TaskImp implements ITasks {
     }
     
 
-    findAllTasks(res: any): Promise<void> {
-        throw new Error("Method not implemented.");
+    async findAllTasks(res: any, username: string): Promise<void> {
+        try {
+            await this.dbConnection.connect();
+    
+            const collectionUsu = this.dbConnection.db.collection('usuario');
+    
+            const user = await collectionUsu.findOne({ username });
+    
+            if (!user) {
+                res.status(404).send({ message: "Usuario no encontrado" });
+                return;
+            }
+    
+            const collectionTask = this.dbConnection.db.collection('tareas');
+
+            const tasks = await collectionTask.find({ _id: { $in: user.tasks } }).toArray();
+
+            if (tasks.length==0) {
+                res.status(404).send({ message: "No tiene tareas" });
+                return;
+            }else{
+                res.status(200).send(tasks);
+            }
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ message: "Internal server error" });
+        } finally {
+            await this.dbConnection.closeConnection();
+        }
     }
 
     async deleteTask(res: any, username: string, task_name: string): Promise<void> {

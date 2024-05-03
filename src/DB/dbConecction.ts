@@ -7,7 +7,7 @@ export class MongoConnection {
     public db: any;
     
     constructor() {
-        this.url = `mongodb://${process.env.IP_MAQUINA}:${process.env.PORT_MONGO}/${process.env.NOMBRE_BBDD_MONGO}`;
+        this.url = `${process.env.URI}`;
         this.dbName = `${process.env.NOMBRE_BBDD_MONGO}`;
         this.client = new MongoClient(this.url);
     }
