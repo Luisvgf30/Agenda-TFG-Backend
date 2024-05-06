@@ -29,6 +29,16 @@ router.get('/buscarTasks', async (req, res, next) => {
   }
 });
 
+router.put('/editTask', async (req, res, next) => {
+  try {
+    const taskImp = new TaskImp();
+    await taskImp.updateTask(res, req.query.username, req.query.old_task_name, req.query.new_task_name, req.query.new_task_desc, req.query.new_limit_date);
+  } catch (err) {
+    console.error("Error en la ruta /updateTask:", err);
+    res.status(500).send({ message: "Internal server error" });
+  }
+});
+
 
 module.exports = router;
 

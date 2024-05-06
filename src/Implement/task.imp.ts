@@ -1,6 +1,7 @@
 import { ITasks } from "../Repository/task.repository";
 import { MongoConnection } from "../DB/dbConecction";
 import { getFormattedDate } from "../functions/date";
+import { ObjectId } from "mongodb";
 
 
 export class TaskImp implements ITasks {
@@ -132,9 +133,66 @@ export class TaskImp implements ITasks {
     
     
     
-    updateTask(res: any): Promise<void> {
-        throw new Error("Method not implemented.");
+    async updateTask(res: any, username: string, old_task_name: string, new_task_name: string, new_task_desc: string, new_limit_date: Date, new_document: string | null | undefined): Promise<void> {
+        try {
+            await this.dbConnection.connect();
+    
+            const collectionUsu = this.dbConnection.db.collection('usuario');
+            const collectionTask = this.dbConnection.db.collection('tareas');
+    
+            const usu = await collectionUsu.findOne({ username });
+            if (!usu) {
+                res.status(404).send({ message: "Usuario no encontrado" });
+                return;
+            }
+
+            const tasks = await collectionTask.find({ task_name : old_task_name }).toArray();
+
+            let existingTask = false;
+            let id = null;
+    
+            for (let i = 0; i < usu.tasks.length; i++) {
+                for (let j = 0; j < tasks.length; j++) {
+                    if (usu.tasks[i].toString() === tasks[j]._id.toString()) {
+                        id =  tasks[j]._id.toString()
+                        existingTask = true;
+                        console.log(id);
+                    }
+                }
+            }
+            if (!existingTask) {
+                res.status(404).send({ message: "Tarea no encontrada para este usuario" });
+                return;
+            }
+
+            const task = await collectionTask.findOne({ _id : new ObjectId(id) });
+            const result = await collectionTask.updateOne(
+                { _id: task._id },
+                {
+                    $set: {
+                        task_name: new_task_name,
+                        task_desc: new_task_desc,
+                        limit_date: new_limit_date
+                    }
+                }
+            );
+    
+            if (result.modifiedCount && result.modifiedCount > 0) {
+                res.status(200).send({ message: "Tarea actualizada exitosamente" });
+            } else {
+                res.status(500).send({ message: "No se pudo actualizar la tarea" });
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ message: "Internal server error" });
+        } finally {
+            await this.dbConnection.closeConnection();
+        }
     }
+    
+    
+    
+   
 
 
 }
