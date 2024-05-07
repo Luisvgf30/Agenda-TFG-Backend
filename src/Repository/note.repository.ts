@@ -1,6 +1,5 @@
 export interface INotes {
-    saveNote(res: any, note_desc: string): Promise<void> 
-    findAllNotes(res: any): Promise<void>;
+    saveNote(res: any,username:string, note_desc: string): Promise<void> 
+    findAllNotes(res: any, username: string): Promise<void>;
     deleteNote(res: any, id: string): Promise<void>;
-    updateNote(res: any): Promise<void>;
 }
