@@ -10,7 +10,7 @@ export class TaskImp implements ITasks {
     constructor() {
         this.dbConnection = new MongoConnection();
     }
-    async saveTask(res: any, username: string, task_name: string, task_desc: string, limit_date: Date, document: string | null | undefined): Promise<void> {
+    async saveTask(res: any, username: string, task_name: string, task_desc: string, limit_date: Date): Promise<void> {
         try {
             await this.dbConnection.connect();
     
@@ -34,7 +34,6 @@ export class TaskImp implements ITasks {
                 task_desc: task_desc,
                 initial_date: new Date(),
                 limit_date: new Date(limit_date),
-                document: document,
                 estado: "Sin empezar",
                 username: username
             };
@@ -133,7 +132,7 @@ export class TaskImp implements ITasks {
     
     
     
-    async updateTask(res: any, username: string, old_task_name: string, new_task_name: string, new_task_desc: string, new_limit_date: Date, new_document: string | null | undefined): Promise<void> {
+    async updateTask(res: any, username: string, old_task_name: string, new_task_name: string, new_task_desc: string, new_limit_date: Date): Promise<void> {
         try {
             await this.dbConnection.connect();
     

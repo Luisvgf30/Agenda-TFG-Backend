@@ -55,7 +55,6 @@ export class UserImp implements IUsers{
                     username: username,
                     email: email,
                     password: password,
-                    foto: null,
                     diary_time: null,
                     tasks: [],
                     notes: [],
@@ -75,7 +74,7 @@ export class UserImp implements IUsers{
         }
     }
 
-    async updateUser(res: any, email: string, username: string, password: string, foto: string, diary_time: Date): Promise<void> {
+    async updateUser(res: any, email: string, username: string, password: string, diary_time: Date): Promise<void> {
         try {
             await this.dbConnection.connect();
 
@@ -88,7 +87,6 @@ export class UserImp implements IUsers{
 
                     updatedUser.email = email;
                     updatedUser.password = password;              
-                    updatedUser.foto = foto;              
                     updatedUser.diary_time = diary_time;
 
                 const result = await collection.updateOne(

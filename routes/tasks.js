@@ -4,8 +4,9 @@ const {TaskImp} = require('../dist/Implement/task.imp');
 
 router.post('/createTask', async (req, res, next) => {
   try {
+    const { username, task_name, task_desc, limit_date} = req.body;
     const taskImp = new TaskImp()
-    await taskImp.saveTask(res, req.query.username, req.query.task_name, req.query.task_desc, req.query.limit_date);
+    await taskImp.saveTask(res, username, task_name, task_desc, limit_date);
   } catch (err) {
     console.error("Error en la ruta /:", err);
   }
@@ -31,8 +32,9 @@ router.get('/buscarTasks', async (req, res, next) => {
 
 router.put('/editTask', async (req, res, next) => {
   try {
+    const { username, old_task_name, new_task_name, new_task_desc, new_limit_date} = req.body;
     const taskImp = new TaskImp();
-    await taskImp.updateTask(res, req.query.username, req.query.old_task_name, req.query.new_task_name, req.query.new_task_desc, req.query.new_limit_date);
+    await taskImp.updateTask(res, username, old_task_name, new_task_name, new_task_desc, new_limit_date);
   } catch (err) {
     console.error("Error en la ruta /updateTask:", err);
     res.status(500).send({ message: "Internal server error" });

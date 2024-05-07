@@ -14,9 +14,6 @@ export const User = {
         email: {
             type: types.TEXT
         },
-        foto: {
-            type: types.TEXT
-        },
         diary_time: {
             type: types.DATE
         },

@@ -14,9 +14,6 @@ export const Task = {
         state: {
             type: types.TEXT
         },
-        document: {
-            type: types.TEXT
-        },
         limit_date: {
             type: types.DATE
         },
