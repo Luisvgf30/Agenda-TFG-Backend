@@ -155,7 +155,6 @@ export class TaskImp implements ITasks {
                     if (usu.tasks[i].toString() === tasks[j]._id.toString()) {
                         id =  tasks[j]._id.toString()
                         existingTask = true;
-                        console.log(id);
                     }
                 }
             }

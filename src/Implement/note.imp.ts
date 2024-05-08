@@ -54,7 +54,7 @@ export class NoteImp implements INotes{
                 return;
             }
     
-            const collectionNotes = this.dbConnection.db.collection('notes');
+            const collectionNotes = this.dbConnection.db.collection('notas');
 
             const notes = await collectionNotes.find({ _id: { $in: user.notes } }).toArray();
 
@@ -72,8 +72,24 @@ export class NoteImp implements INotes{
             await this.dbConnection.closeConnection();
         }
     }
-    deleteNote(res: any, id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    async deleteNote(res: any, id: string): Promise<void> {
+        try {
+            await this.dbConnection.connect();
+    
+            const collectionNote = this.dbConnection.db.collection('notas');
+    
+            const nota = await collectionNote.findOne({ id });
+    
+            await collectionNote.deleteOne({ _id: nota._id });
+                        
+    
+            res.status(200).send({ message: "Nota eliminada exitosamente" });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ message: "Internal server error" });
+        } finally {
+            await this.dbConnection.closeConnection();
+        }
     }
 
     
