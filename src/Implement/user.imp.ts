@@ -1,5 +1,8 @@
 import {IUsers} from "../Repository/user.repository";
 import {MongoConnection} from "../DB/dbConecction";
+import { encryptPassword } from "../functions/encrypt";
+require("../functions/encrypt");
+
 
 
 export class UserImp implements IUsers{
@@ -50,6 +53,7 @@ export class UserImp implements IUsers{
                     controlador = true;
                 }
             }
+
             if(!controlador){
                 const usuario = {
                     username: username,
@@ -74,13 +78,16 @@ export class UserImp implements IUsers{
         }
     }
 
-    async updateUser(res: any, email: string, username: string, password: string, diary_time: Date): Promise<void> {
+    async updateUser(res: any, username: string, email: string, password: string, diary_time: Date): Promise<void> {
         try {
             await this.dbConnection.connect();
 
             const collection = this.dbConnection.db.collection('usuario');
 
+            console.log(username);
+
             const usuario = await collection.findOne({ username: username });
+            
 
             if (usuario) {
                 const updatedUser: any = {};
