@@ -1,6 +1,6 @@
 import {IUsers} from "../Repository/user.repository";
 import {MongoConnection} from "../DB/dbConecction";
-import { encryptPassword } from "../functions/encrypt";
+import { comparePasswords, encryptPassword } from "../functions/encrypt";
 require("../functions/encrypt");
 
 
@@ -21,8 +21,8 @@ export class UserImp implements IUsers{
 
             const usu = await collection.findOne({ username }); 
 
-            if (usu) {  // Verifica si se encontró un usuario
-                if (usu.password === password) {  
+            if (usu) { 
+                if (await comparePasswords(password, usu.password)) {  
                     res.status(200).send(usu);
                 } else {
                     res.status(201).send({ message: "Contraseña incorrecta" });
@@ -54,11 +54,19 @@ export class UserImp implements IUsers{
                 }
             }
 
+            let hashedPassword;
+            try {
+                hashedPassword = await encryptPassword(password);
+                console.log(hashedPassword); 
+            } catch (error) {
+                console.error(error);
+            }
+            
             if(!controlador){
                 const usuario = {
                     username: username,
                     email: email,
-                    password: password,
+                    password: hashedPassword,
                     diary_time: null,
                     tasks: [],
                     notes: [],
@@ -87,13 +95,20 @@ export class UserImp implements IUsers{
             console.log(username);
 
             const usuario = await collection.findOne({ username: username });
-            
 
+            let hashedPassword;
+            try {
+                hashedPassword = await encryptPassword(password);
+                console.log(hashedPassword); 
+            } catch (error) {
+                console.error(error);
+            }
+            
             if (usuario) {
                 const updatedUser: any = {};
 
                     updatedUser.email = email;
-                    updatedUser.password = password;              
+                    updatedUser.password = hashedPassword;              
                     updatedUser.diary_time = diary_time;
 
                 const result = await collection.updateOne(

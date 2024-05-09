@@ -11,9 +11,9 @@ export async function encryptPassword(password: string): Promise<string> {
     }
 }
 
-export async function comparePasswords(enteredPassword: string, hashedPassword: string): Promise<boolean> {
+export async function comparePasswords(password: string, hashedPassword: string): Promise<boolean> {
     try {
-        const match = await bcrypt.compare(enteredPassword, hashedPassword);
+        const match = await bcrypt.compare(password, hashedPassword);
         return match;
     } catch (error) {
         throw error;
