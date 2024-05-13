@@ -57,7 +57,6 @@ export class UserImp implements IUsers{
             let hashedPassword;
             try {
                 hashedPassword = await encryptPassword(password);
-                console.log(hashedPassword); 
             } catch (error) {
                 console.error(error);
             }
@@ -99,7 +98,6 @@ export class UserImp implements IUsers{
             let hashedPassword;
             try {
                 hashedPassword = await encryptPassword(password);
-                console.log(hashedPassword); 
             } catch (error) {
                 console.error(error);
             }
