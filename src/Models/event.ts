@@ -16,6 +16,9 @@ export const Event = {
         },
         event_date: {
             type: types.DATE
+        },
+        username:{
+            type: types.TEXT
         }
         
     },

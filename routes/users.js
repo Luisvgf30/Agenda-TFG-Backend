@@ -10,7 +10,7 @@ router.get('/login', async (req, res, next) => {
     console.error("Error en la ruta /:", err);
   }
 });
-// cambiar req query por req body para recibir los datos 
+
 router.post('/singUpUsu', async (req, res, next) => {
   try {
       const { username, email, password } = req.body;
@@ -22,6 +22,14 @@ router.post('/singUpUsu', async (req, res, next) => {
   }
 });
 
+router.get('/buscarUsu', async (req, res, next) => {
+  try {
+    const usuImp = new UserImp()
+    await usuImp.findByUsername(res, req.query.username);
+  } catch (err) {
+    console.error("Error en la ruta /:", err);
+  }
+});
 
 router.put('/editUsu', async (req, res, next) => {
   try {

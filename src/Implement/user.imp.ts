@@ -38,6 +38,24 @@ export class UserImp implements IUsers{
             await this.dbConnection.closeConnection();
         }
     }
+    async findByUsername(res: any,username: string): Promise<any> {
+        try {
+            await this.dbConnection.connect();
+    
+            const collection = this.dbConnection.db.collection('usuario');
+            const usu = await collection.findOne({ username });
+            
+            if (usu) { 
+                res.status(200).send(usu);
+            } else {
+                res.status(404).send({ message: "Usuario no encontrado" });
+            }
+        } catch (error) {
+            throw error;
+        } finally {
+            await this.dbConnection.closeConnection();
+        }
+    }
 
     async saveUser(res: any, username: string, email: string, password: string): Promise<void> {
         try{
