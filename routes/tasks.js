@@ -4,9 +4,9 @@ const {TaskImp} = require('../dist/Implement/task.imp');
 
 router.post('/createTask', async (req, res, next) => {
   try {
-    const { username, task_name, task_desc, limit_date} = req.body;
+    const { task_name, task_desc, limit_date, username} = req.body;
     const taskImp = new TaskImp()
-    await taskImp.saveTask(res, username, task_name, task_desc, limit_date);
+    await taskImp.saveTask(res, task_name, task_desc, limit_date, username);
   } catch (err) {
     console.error("Error en la ruta /:", err);
   }

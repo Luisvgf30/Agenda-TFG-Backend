@@ -10,14 +10,17 @@ export class TaskImp implements ITasks {
     constructor() {
         this.dbConnection = new MongoConnection();
     }
-    async saveTask(res: any, username: string, task_name: string, task_desc: string, limit_date: Date): Promise<void> {
+    async saveTask(res: any,  task_name: string, task_desc: string, limit_date: Date, username: string,): Promise<void> {
         try {
             await this.dbConnection.connect();
     
             const collectionUsu = this.dbConnection.db.collection('usuario');
             const collectionTask = this.dbConnection.db.collection('tareas');
     
-            const usu = await collectionUsu.findOne({ username });
+            const usu = await collectionUsu.findOne({ username: "ibra" });
+
+            console.log(usu)
+
             if (!usu) {
                 res.status(404).send({ message: "Usuario no encontrado" });
                 return;
