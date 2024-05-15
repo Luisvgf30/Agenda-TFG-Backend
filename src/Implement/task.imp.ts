@@ -10,7 +10,7 @@ export class TaskImp implements ITasks {
     constructor() {
         this.dbConnection = new MongoConnection();
     }
-    async saveTask(res: any,  task_name: string, task_desc: string, limit_date: Date, username: string,): Promise<void> {
+    async saveTask(res: any, username: string,  task_name: string, task_desc: string, limit_date: Date, task_level: string ): Promise<void> {
         try {
             await this.dbConnection.connect();
     
@@ -18,9 +18,6 @@ export class TaskImp implements ITasks {
             const collectionTask = this.dbConnection.db.collection('tareas');
     
             const usu = await collectionUsu.findOne({ username });
-
-            console.log(task_name)
-            console.log(task_desc)
 
             if (!usu) {
                 res.status(404).send({ message: "Usuario no encontrado" });
@@ -39,6 +36,7 @@ export class TaskImp implements ITasks {
                 initial_date: new Date(),
                 limit_date: new Date(limit_date),
                 estado: "Sin empezar",
+                level: task_level,
                 username: username
             };
     
@@ -136,7 +134,7 @@ export class TaskImp implements ITasks {
     
     
     
-    async updateTask(res: any, username: string, old_task_name: string, new_task_name: string, new_task_desc: string, new_limit_date: Date): Promise<void> {
+    async updateTask(res: any, username: string, old_task_name: string, new_task_name: string, new_task_desc: string, new_limit_date: Date, new_estado: string, new_task_level: string): Promise<void> {
         try {
             await this.dbConnection.connect();
     
@@ -174,7 +172,9 @@ export class TaskImp implements ITasks {
                     $set: {
                         task_name: new_task_name,
                         task_desc: new_task_desc,
-                        limit_date: new_limit_date
+                        limit_date: new_limit_date,
+                        estado: new_estado, 
+                        task_level: new_task_level
                     }
                 }
             );

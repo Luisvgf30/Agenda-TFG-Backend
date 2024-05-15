@@ -11,7 +11,7 @@ export const Task = {
         task_desc: {
             type: types.TEXT
         },
-        state: {
+        estado: {
             type: types.TEXT
         },
         limit_date: {
@@ -19,6 +19,9 @@ export const Task = {
         },
         initial_date: {
             type: types.DATE
+        },
+        task_level:{
+            type: types.TEXT
         },
         username:{
             type: types.TEXT
