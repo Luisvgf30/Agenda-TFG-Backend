@@ -17,9 +17,10 @@ export class TaskImp implements ITasks {
             const collectionUsu = this.dbConnection.db.collection('usuario');
             const collectionTask = this.dbConnection.db.collection('tareas');
     
-            const usu = await collectionUsu.findOne({ username: "ibra" });
+            const usu = await collectionUsu.findOne({ username });
 
-            console.log(usu)
+            console.log(task_name)
+            console.log(task_desc)
 
             if (!usu) {
                 res.status(404).send({ message: "Usuario no encontrado" });
