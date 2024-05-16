@@ -4,9 +4,9 @@ const {EventImp} = require('../dist/Implement/event.imp');
 
 router.post('/createEvent', async (req, res, next) => {
   try {
-    const { event_name, event_desc , event_date } = req.body;
+    const { username, event_name, event_desc , event_date } = req.body;
     const eventImp = new EventImp();
-    await eventImp.saveEvent(res,  event_name, event_desc , event_date);
+    await eventImp.saveEvent(res,  username, event_name, event_desc , event_date);
   } catch (err) {
     console.error("Error en la ruta /:", err);
   }

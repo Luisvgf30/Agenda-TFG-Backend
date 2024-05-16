@@ -11,9 +11,6 @@ export const Event = {
         event_desc: {
             type: types.TEXT
         },
-        minutes_before: {
-            type: types.NUMBER
-        },
         event_date: {
             type: types.DATE
         },

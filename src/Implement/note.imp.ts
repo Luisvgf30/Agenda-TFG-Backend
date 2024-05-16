@@ -1,5 +1,6 @@
 import {INotes} from "../Repository/note.repository";
 import {MongoConnection} from "../DB/dbConecction";
+const ObjectId = require('mongodb').ObjectId;
 
 
 export class NoteImp implements INotes{
@@ -72,18 +73,29 @@ export class NoteImp implements INotes{
             await this.dbConnection.closeConnection();
         }
     }
-    async deleteNote(res: any, id: string): Promise<void> {
+    async deleteNote(res: any, username: string, id: string): Promise<void> {
         try {
             await this.dbConnection.connect();
-    
+            
             const collectionNote = this.dbConnection.db.collection('notas');
+            const collectionUsu = this.dbConnection.db.collection('usuario');
+            
+            const objectId = new ObjectId(id);
     
-            const nota = await collectionNote.findOne({ id });
+            const nota = await collectionNote.findOne({ _id: objectId });
     
-            await collectionNote.deleteOne({ _id: nota._id });
-                        
+            if (nota) {
+                await collectionNote.deleteOne({ _id: objectId });
     
-            res.status(200).send({ message: "Nota eliminada exitosamente" });
+                await collectionUsu.updateOne(
+                    { username: username },
+                    { $pull: { notes: objectId  } } 
+                );
+    
+                res.status(200).send({ message: "Nota eliminada exitosamente" });
+            } else {
+                res.status(404).send({ message: "La nota no fue encontrada" });
+            }
         } catch (error) {
             console.error(error);
             res.status(500).send({ message: "Internal server error" });
@@ -91,6 +103,9 @@ export class NoteImp implements INotes{
             await this.dbConnection.closeConnection();
         }
     }
+    
+    
+    
 
     
 }
