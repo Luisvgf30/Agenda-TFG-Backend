@@ -39,7 +39,7 @@ export class EventImp implements IEvents{
     
             await collectionUsu.updateOne(
                 { username: username },
-                { $push: { tasks: resultEvent.insertedId } }
+                { $push: { events: resultEvent.insertedId } }
             );
     
             res.status(200).send(resultEvent);

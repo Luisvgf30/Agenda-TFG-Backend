@@ -30,7 +30,7 @@ export class NoteImp implements INotes{
     
             await collectionUsu.updateOne(
                 { username: username },
-                { $push: { tasks: resultNote.insertedId } }
+                { $push: { notes: resultNote.insertedId } }
             );
     
             res.status(200).send(resultNote);
