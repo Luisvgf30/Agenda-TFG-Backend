@@ -65,7 +65,7 @@ export class EventImp implements IEvents{
     
             const collectionEvent = this.dbConnection.db.collection('eventos');
 
-            const events = await collectionEvent.find({ _id: { $in: user.notas } }).toArray();
+            const events = await collectionEvent.find({ _id: { $in: user.events } }).toArray();
 
             if (events.length==0) {
                 res.status(404).send({ message: "No tiene eventos" });
