@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const {EventImp} = require('../dist/Implement/event.imp');
+const {EventImp} = require('../../dist/Implement/event.imp');
 
 router.post('/createEvent', async (req, res, next) => {
   try {

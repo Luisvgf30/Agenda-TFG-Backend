@@ -1,5 +1,5 @@
-import {IEvents} from "../Repository/event.repository";
-import {MongoConnection} from "../DB/dbConecction";
+import {IEvents} from "../repository/event.repository";
+import {MongoConnection} from "../db/dbConecction";
 import { ObjectId } from "mongodb";
 
 

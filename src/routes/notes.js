@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const {NoteImp} = require('../dist/Implement/note.imp');
+const {NoteImp} = require('../../dist/Implement/note.imp');
 
 router.post('/createNote', async (req, res, next) => {
   try {
