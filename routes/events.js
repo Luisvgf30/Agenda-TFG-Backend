@@ -34,7 +34,7 @@ router.put('/editEvent', async (req, res, next) => {
     try {
       const { username, old_event_name, new_event_name, new_event_desc, new_event_date} = req.body;
       const eventImp = new EventImp();
-      await eventImp.updateTask(res, username, old_event_name, new_event_name, new_event_desc, new_event_date);
+      await eventImp.updateEvent(res, username, old_event_name, new_event_name, new_event_desc, new_event_date);
     } catch (err) {
       console.error("Error en la ruta /updateEvent:", err);
       res.status(500).send({ message: "Internal server error" });
