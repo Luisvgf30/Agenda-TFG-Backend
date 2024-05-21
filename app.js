@@ -16,10 +16,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-const usersRouter = require('./routes/users');
-const tasksRouter = require('./routes/tasks');
-const eventsRouter = require('./routes/events');
-const notesRouter = require('./routes/notes');
+const usersRouter = require('./src/routes/users');
+const tasksRouter = require('./src/routes/tasks');
+const eventsRouter = require('./src/routes/events');
+const notesRouter = require('./src/routes/notes');
 
 
 app.use("/", usersRouter);

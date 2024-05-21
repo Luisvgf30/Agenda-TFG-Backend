@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const {UserImp} = require('../dist/Implement/user.imp');
+const {UserImp} = require('../../dist/Implement/user.imp');
 
 router.get('/login', async (req, res, next) => {
   try {

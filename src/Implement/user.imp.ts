@@ -1,5 +1,5 @@
-import {IUsers} from "../Repository/user.repository";
-import {MongoConnection} from "../DB/dbConecction";
+import {IUsers} from "../repository/user.repository";
+import {MongoConnection} from "../db/dbConecction";
 import { comparePasswords, encryptPassword } from "../functions/encrypt";
 require("../functions/encrypt");
 

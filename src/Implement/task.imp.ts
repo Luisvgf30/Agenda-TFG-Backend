@@ -1,5 +1,5 @@
-import { ITasks } from "../Repository/task.repository";
-import { MongoConnection } from "../DB/dbConecction";
+import { ITasks } from "../repository/task.repository";
+import { MongoConnection } from "../db/dbConecction";
 import { getFormattedDate } from "../functions/date";
 import { ObjectId } from "mongodb";
 

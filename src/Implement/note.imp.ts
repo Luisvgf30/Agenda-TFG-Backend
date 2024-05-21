@@ -1,5 +1,5 @@
-import {INotes} from "../Repository/note.repository";
-import {MongoConnection} from "../DB/dbConecction";
+import {INotes} from "../repository/note.repository";
+import {MongoConnection} from "../db/dbConecction";
 const ObjectId = require('mongodb').ObjectId;
 
 
