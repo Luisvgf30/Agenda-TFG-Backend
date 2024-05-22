@@ -136,7 +136,7 @@ export class EventImp implements IEvents{
                 return;
             }
 
-            const events = await collectionEvent.find({ task_name : old_event_name }).toArray();
+            const events = await collectionEvent.find({ event_name : old_event_name }).toArray();
 
             let existingEvent = false;
             let id = null;
