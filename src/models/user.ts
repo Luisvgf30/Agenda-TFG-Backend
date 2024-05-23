@@ -14,9 +14,6 @@ export const User = {
         email: {
             type: types.TEXT
         },
-        diary_time: {
-            type: types.DATE
-        },
         tasks: {
             type: types.ARRAY,
             items: {
