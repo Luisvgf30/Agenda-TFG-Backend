@@ -161,7 +161,7 @@ export class EventImp implements IEvents{
                     $set: {
                         event_name: new_event_name,
                         event_desc: new_event_desc,
-                        event_date: new_event_date
+                        event_date: new Date(new_event_date)
                     }
                 }
             );

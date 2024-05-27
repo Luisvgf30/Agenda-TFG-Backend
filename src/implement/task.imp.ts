@@ -172,7 +172,7 @@ export class TaskImp implements ITasks {
                     $set: {
                         task_name: new_task_name,
                         task_desc: new_task_desc,
-                        limit_date: new_limit_date,
+                        limit_date: new Date(new_limit_date),
                         estado: new_estado, 
                         task_level: new_task_level
                     }
