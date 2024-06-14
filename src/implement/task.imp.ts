@@ -36,7 +36,7 @@ export class TaskImp implements ITasks {
                 initial_date: new Date(),
                 limit_date: new Date(limit_date),
                 estado: "Sin empezar",
-                level: task_level,
+                task_level: task_level,
                 username: username
             };
     
